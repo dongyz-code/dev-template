@@ -1,5 +1,5 @@
-import { resolve } from "path";
+import { resolve } from 'path';
 
-export const staticDir = resolve(__dirname, "../../static");
+export const staticDir = resolve(__dirname, '../../static');
 
-export const logDir = resolve(staticDir, "logs");
+export const logDir = resolve(staticDir, 'logs');

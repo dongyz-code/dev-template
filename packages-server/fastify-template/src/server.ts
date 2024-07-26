@@ -1,6 +1,6 @@
-import Fastify from "fastify";
-import { SERVER_PORT } from "@/config";
-import { fastifyLogger } from "@/plugins/logger";
+import Fastify from 'fastify';
+import { SERVER_PORT } from '@/config';
+import { fastifyLogger } from '@/plugins/logger';
 
 const app = Fastify({
   logger: fastifyLogger,

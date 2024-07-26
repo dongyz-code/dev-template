@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "创建一些nodejs模板，用来快速搭建后台服务",
   "type": "commonjs",
+  "private": true,
   "volta": {
     "node": "18.2.0"
   },
@@ -10,7 +11,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:fastify": "pnpm -C packages-server/fastify-template dev"
+    "dev:fastify": "pnpm -C packages-server/fastify-template dev",
+    "prettier": "prettier --write \"**/*.{js,ts,vue,scss,html,json}\""
   },
   "dependencies": {},
   "devDependencies": {
