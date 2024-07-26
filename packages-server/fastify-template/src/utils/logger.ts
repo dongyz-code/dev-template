@@ -1,4 +1,3 @@
-import path from 'path';
 import pino from 'pino';
 import pretty from 'pino-pretty';
 import { stdout } from 'process';
@@ -8,7 +7,7 @@ export type LoggerName = 'app' | 'db' | 'fastify';
 
 const defaultOptions: pino.LoggerOptions = {
   level: 'info',
-  timestamp: () => `,"time":"${new Date(1591862400000).toISOString()}"`,
+  timestamp: () => `,"time":"${new Date().toISOString()}"`,
 };
 
 export function getLogger(
@@ -19,11 +18,10 @@ export function getLogger(
   pinoOptions?: pino.LoggerOptions
 ): pino.Logger {
   const { logDir } = options;
-  const logFile = path.resolve(logDir, `${name}.log`);
-  const stream = createStream(logFile, {
+  const stream = createStream(`server.log`, {
     size: '10M',
     interval: '1d',
-    compress: 'gzip',
+    path: logDir,
   });
 
   const targets: pino.StreamEntry[] = [{ level: 'info', stream: stream }];

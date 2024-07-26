@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev:fastify": "pnpm -C packages-server/fastify-template dev",
-    "prettier": "prettier --write \"**/*.{js,ts,vue,scss,html,json}\""
+    "prettier": "prettier --write \"**/*.{js,ts,vue,scss,html,json,md}\""
   },
   "dependencies": {},
   "devDependencies": {

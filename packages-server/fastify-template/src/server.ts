@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
 import { SERVER_PORT } from '@/config';
-import { fastifyLogger } from '@/plugins/logger';
+import { fastifyLogger, logger } from '@/plugins/logger';
 
 const app = Fastify({
   logger: fastifyLogger,
@@ -8,8 +8,11 @@ const app = Fastify({
 
 app.listen({ port: SERVER_PORT }, (err, address) => {
   if (err) {
-    console.error(err);
+    logger.error(err);
     process.exit(1);
   }
-  console.log(`Server listening on ${address}`);
 });
+
+process.on('uncaughtException', logger.error.bind(logger));
+process.on('unhandledRejection', logger.error.bind(logger));
+process.on('uncaughtExceptionMonitor', logger.error.bind(logger));

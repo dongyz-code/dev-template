@@ -1,10 +1,16 @@
 import { getLogger } from '@/utils/logger';
-import { logDir } from '@/config';
+import { LOG_DIR } from '@/config';
 
+/**
+ * 通用logger
+ */
 export const logger = getLogger('app', {
-  logDir,
+  logDir: LOG_DIR,
 });
 
+/**
+ * fastify logger
+ */
 export const fastifyLogger = getLogger('fastify', {
-  logDir,
+  logDir: LOG_DIR,
 });
