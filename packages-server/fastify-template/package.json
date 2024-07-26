@@ -1,0 +1,28 @@
+{
+  "name": "@dev-template/fastify-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dayjs": "^1.11.12",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "lodash": "^4.17.21",
+    "node-schedule": "^2.1.1",
+    "pino": "^9.3.1",
+    "rotating-file-stream": "^3.2.3",
+    "winston": "^3.13.0",
+    "pino-pretty": "^11.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "tsx": "^4.16.0"
+  }
+}
