@@ -1,0 +1,1 @@
+export type BeString<T> = T extends string ? T : string;
