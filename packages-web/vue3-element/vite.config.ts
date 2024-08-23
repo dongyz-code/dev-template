@@ -13,6 +13,13 @@ export default defineConfig({
       '@': '/src',
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@use "./src/styles/element-theme.scss" as *;',
+      },
+    },
+  },
   server: {
     port: 8080,
     proxy: {
@@ -27,9 +34,15 @@ export default defineConfig({
     vue(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
+      dts: './auto-imports.d.ts',
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [
+        ElementPlusResolver({
+          importStyle: 'sass',
+        }),
+      ],
+      dts: './components.d.ts',
     }),
   ],
 });

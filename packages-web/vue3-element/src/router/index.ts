@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { withPermission } from './permission';
 import { routes } from './routes';
 
 export const router = createRouter({
@@ -6,3 +7,6 @@ export const router = createRouter({
   routes,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
+
+/** Add permission guard */
+router.beforeEach(withPermission);

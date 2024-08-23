@@ -2,11 +2,11 @@
   <el-table ref="tableRef" :data="data" :row-key="rowKey" :height="height" :max-height="maxHeight">
     <!-- check -->
     <el-table-column v-if="selectedKeys" width="50" align="center">
-      <template #default="{ row, $index }">
-        <el-checkbox :checked="selectedMap[row[rowKey]]" @change="onSelected($event, row)"> </el-checkbox>
+      <template #default="{ row }">
+        <el-checkbox :checked="selectedMap[row[rowKey]]" @change="onSelectedRow($event, row[rowKey])"></el-checkbox>
       </template>
       <template #header v-if="selectedPage">
-        <el-checkbox v-bind="pageSelected" @change="onSelectPage"></el-checkbox>
+        <el-checkbox v-bind="headerSelected" @change="onSelectedPage($event, currentPageIds)"></el-checkbox>
       </template>
     </el-table-column>
 
@@ -32,11 +32,13 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import { computed, reactive, ref } from 'vue';
-import { CheckboxValueType, type ElTable } from 'element-plus';
-import { VTableProps } from './interface';
+import { computed, ref } from 'vue';
 import JsxRender from '../jsx-render';
-import { arrObject } from '@/utils/array';
+import { useTableSelected } from './useTableSelected';
+
+import type { CommonKey } from '@/types/common';
+import type { VTableProps } from './interface';
+import type { ElTable } from 'element-plus';
 
 const tableRef = ref<InstanceType<typeof ElTable>>();
 
@@ -47,40 +49,10 @@ const props = withDefaults(defineProps<VTableProps<T>>(), {
 });
 const emits = defineEmits(['update:columns']);
 
-const pageSelected = reactive({
-  checked: true,
-  indeterminate: true,
-});
-const selectedKeys = defineModel<string[]>('selectedKeys', {});
-const selectedMap = computed(() => arrObject(selectedKeys.value));
+const selectedKeys = defineModel<CommonKey[]>('selectedKeys', { default: () => [] });
+const currentPageIds = computed(() => props.data.map((item) => item[props.rowKey] as CommonKey));
 
-/** 选中行 */
-const onSelected = (val: CheckboxValueType, row: T) => {
-  if (!selectedKeys) return;
-  const id = row[props.rowKey] as string;
-
-  if (val === true) {
-    selectedKeys.value?.push(id);
-  } else if (val === false) {
-    selectedKeys.value = selectedKeys.value?.filter((i) => i !== id) || [];
-  }
-};
-
-/** 选中当前页 */
-const onSelectPage = (val: CheckboxValueType) => {
-  if (!selectedKeys) return;
-
-  const currentIdMap = arrObject(props.data, props.rowKey, true);
-
-  if (val === true) {
-    let _selected: string[] = [];
-    _selected = selectedKeys.value?.filter((i) => !currentIdMap[i]) || [];
-    _selected.push(...Object.keys(currentIdMap));
-    selectedKeys.value = _selected;
-  } else if (val === false) {
-    selectedKeys.value = selectedKeys.value?.filter((i) => currentIdMap[i]) || [];
-  }
-};
+const { selectedMap, headerSelected, onSelectedPage, onSelectedRow } = useTableSelected(selectedKeys, currentPageIds);
 </script>
 
 <style lang="scss" scoped></style>

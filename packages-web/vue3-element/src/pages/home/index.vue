@@ -1,12 +1,20 @@
 <template>
   <div class="home">
-    <v-table v-model:selected-keys="selected" :data="currentPageData" row-key="user_id" :columns="columns"></v-table>
+    <v-table
+      v-model:selected-keys="selected"
+      :data="currentPageData"
+      row-key="user_id"
+      :columns="columns"
+      style="margin-bottom: 20px"
+    ></v-table>
+
     <el-pagination
       :current-page="page.current"
       :page-size="page.pageSize"
       :total="data.length"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
+      layout="total, sizes, prev, pager, next, jumper"
     ></el-pagination>
   </div>
 </template>

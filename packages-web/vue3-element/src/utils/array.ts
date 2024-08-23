@@ -1,5 +1,4 @@
-export function arrObject(arr?: string[]): Record<string, true>;
-export function arrObject(arr?: number[]): Record<string, true>;
+export function arrObject<T extends string | number>(arr?: T[]): Record<T, true>;
 export function arrObject<T, F extends keyof T>(arr: T[], key: F, value: true): Record<F, true>;
 export function arrObject<T, F extends keyof T>(arr: T[], key: F): Record<F, T>;
 export function arrObject<T extends Record<string, any>, F extends keyof T, V extends keyof T>(
