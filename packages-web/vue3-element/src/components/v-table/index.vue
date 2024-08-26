@@ -1,9 +1,12 @@
 <template>
   <el-table ref="tableRef" :data="data" :row-key="rowKey" :height="height" :max-height="maxHeight">
-    <!-- check -->
+    <!-- selected -->
     <el-table-column v-if="selectedKeys" width="50" align="center">
       <template #default="{ row }">
-        <el-checkbox :checked="selectedMap[row[rowKey]]" @change="onSelectedRow($event, row[rowKey])"></el-checkbox>
+        <el-checkbox
+          :model-value="!!selectedMap[row[rowKey]]"
+          @change="onSelectedRow($event, row[rowKey])"
+        ></el-checkbox>
       </template>
       <template #header v-if="selectedPage">
         <el-checkbox v-bind="headerSelected" @change="onSelectedPage($event, currentPageIds)"></el-checkbox>

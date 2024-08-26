@@ -1,4 +1,4 @@
-import { computed, Ref, watch, ComputedRef } from 'vue';
+import { computed, Ref, ComputedRef } from 'vue';
 import { arrObject } from '@/utils/array';
 
 import type { CommonKey } from '@/types/common';
@@ -35,26 +35,16 @@ export const useTableSelected = (
     const needSelected = ids.filter((i) => !selectedMap.value[i]);
 
     if (val === true) {
-      console.log(needSelected);
-      console.log(selected.value);
       selected.value?.push(...needSelected);
-
-      console.log(JSON.stringify(selected.value));
-      console.log(JSON.stringify(selectedMap.value));
-      console.log(selected.value);
     } else if (val === false) {
       selected.value = selected.value?.filter((i) => !idMap[i]) || [];
     }
   };
 
-  watch(selected, (val) => {
-    console.log(val);
-  });
-
   return {
     selectedMap,
+    headerSelected,
     onSelectedRow,
     onSelectedPage,
-    headerSelected,
   };
 };
