@@ -29,6 +29,10 @@
         <template v-if="column.headerRender" #header>
           <jsx-render :nodes="column.headerRender()" />
         </template>
+
+        <template v-if="column.expandable && column.expandRender" #expand="{ row, $index }">
+          <jsx-render :nodes="column.expandRender(row, $index)" />
+        </template>
       </el-table-column>
     </template>
   </el-table>

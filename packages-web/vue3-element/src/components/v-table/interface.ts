@@ -19,4 +19,7 @@ export interface VTableColumn<T extends Record<string, unknown> = Record<string,
   sortable?: boolean;
   render?: (row: T, index: number) => RendererNode;
   headerRender?: () => RendererNode;
+  expandable?: boolean;
+  expandRender?: (row: T, index: number) => RendererNode;
+  fixed?: 'left' | 'right';
 }

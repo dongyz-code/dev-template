@@ -14,6 +14,13 @@ export const data = Array.from({ length: 100 }, (_, index) => ({
 type DataItem = (typeof data)[0];
 
 export const columns: VTableColumn<DataItem>[] = [
+  {
+    title: '操作',
+    type: 'expand',
+    render: (row) => {
+      return <div>扩展内容</div>;
+    },
+  },
   { title: 'ID', key: 'user_id' },
   { title: '姓名', key: 'name' },
   { title: '年龄', key: 'age' },
