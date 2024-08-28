@@ -9,13 +9,12 @@ RUN apk add tzdata
 ENV TZ=Asia/Shanghai
 # install dependencies
 RUN apk add --no-cache libc6-compat
-RUN apk add icu-data-full 
-
+RUN apk add icu-data-full
+COPY package*.json ./
+RUN npm i --omit-dev --registry https://registry.npmmirror.com
 
 FROM deps AS builder
 WORKDIR /app
-COPY package*.json ./
-RUN npm i --omit-dev --registry https://registry.npmmirror.com
 COPY . .
 RUN npm run build
 CMD ["node", "--max-old-space-size=16000", "dist/main.js"]
