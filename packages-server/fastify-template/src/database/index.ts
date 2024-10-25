@@ -10,8 +10,6 @@ const entitiesPath = join(__dirname, '..', 'modules', '**', '*.entity.{js,ts}');
 export const connection = new DataSource({
   type: 'postgres',
   url: Env.DATABASE_URL,
-  logger: Env.NODE_ENV === 'dev' ? 'advanced-console' : 'file',
-  logging: Env.NODE_ENV === 'dev',
   synchronize: Env.NODE_ENV === 'dev',
   entities: [entitiesPath],
   schema: 'dev_fastify_template',
