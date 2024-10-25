@@ -1,13 +1,16 @@
-import pino from 'pino';
-import pretty from 'pino-pretty';
 import { stdout } from 'process';
+import { resolve } from 'path';
+import pino from 'pino';
+import dayjs from 'dayjs';
+import fse from 'fs-extra';
+import pretty from 'pino-pretty';
 import { createStream } from 'rotating-file-stream';
 
 export type LoggerName = 'app' | 'db' | 'fastify';
 
 const defaultOptions: pino.LoggerOptions = {
   level: 'info',
-  timestamp: () => `,"time":"${new Date().toISOString()}"`,
+  timestamp: true,
 };
 
 export function getLogger(
@@ -18,7 +21,23 @@ export function getLogger(
   pinoOptions?: pino.LoggerOptions
 ): pino.Logger {
   const { logDir } = options;
-  const stream = createStream(`server.log`, {
+
+  function generateLoggerName(time: number | Date, index?: number) {
+    if (!time) {
+      time = new Date();
+    }
+
+    let end = '';
+    if (typeof index == 'number') {
+      end = `_${index}`;
+    }
+
+    const dir = resolve(logDir, `${dayjs(time).format('YYYY-MM-DD')}`);
+    fse.ensureDirSync(dir);
+    return `/${dayjs(time).format('YYYY-MM-DD')}/${name}${end}.log`;
+  }
+
+  const stream = createStream(generateLoggerName, {
     size: '10M',
     interval: '1d',
     path: logDir,
