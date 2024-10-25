@@ -8,7 +8,7 @@ import 'winston-daily-rotate-file';
 class MLogger implements LoggerService {
   private readonly logger: Logger;
 
-  constructor(application: string = 'Nest') {
+  constructor(application: string) {
     const _transports: LoggerOptions['transports'] = [
       new transports.DailyRotateFile({
         format: format.combine(format.timestamp(), format.json()),
@@ -70,7 +70,7 @@ class MLogger implements LoggerService {
   }
 }
 
-const logger = new MLogger('system');
-const nestLogger = new MLogger();
+const logger = new MLogger('System');
+const nestLogger = new MLogger('Nest');
 
 export { logger, nestLogger };
