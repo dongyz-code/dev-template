@@ -1,6 +1,6 @@
 import { stdout } from 'process';
 import { resolve } from 'path';
-import pino from 'pino';
+import { pino } from 'pino';
 import dayjs from 'dayjs';
 import fse from 'fs-extra';
 import pretty from 'pino-pretty';
@@ -13,6 +13,13 @@ const defaultOptions: pino.LoggerOptions = {
   timestamp: true,
 };
 
+/**
+ * 获取日志记录器
+ * @param name - 日志记录器名称
+ * @param options - 日志记录器配置
+ * @param pinoOptions - pino 配置
+ * @returns 日志记录器
+ */
 export function getLogger(
   name: string,
   options: {

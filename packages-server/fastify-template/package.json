@@ -2,10 +2,11 @@
   "name": "@dev-template/fastify-template",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
-  "type": "commonjs",
   "scripts": {
-    "dev": "tsx src/index.ts"
+    "dev": "cross-env NODE_ENV=dev && tsx src/index.ts",
+    "build": "rimraf dist && tsc && tsc-alias"
   },
   "keywords": [],
   "author": "",
@@ -22,12 +23,13 @@
     "pino-pretty": "^11.2.1",
     "reflect-metadata": "^0.2.2",
     "rotating-file-stream": "^3.2.3",
-    "typeorm": "^0.3.20",
-    "winston": "^3.13.0"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.14.9",
-    "tsx": "^4.16.0"
+    "rimraf": "^6.0.1",
+    "tsc-alias": "^1.8.10",
+    "tsx": "^4.16.2"
   }
 }

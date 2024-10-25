@@ -1,5 +1,5 @@
-import { logger } from './plugins/logger';
-import { connection } from '@/database';
+import { logger } from './plugins/logger.js';
+import { connection } from '@/database/index.js';
 
 const bootstrap = async () => {
   await connection.initialize();

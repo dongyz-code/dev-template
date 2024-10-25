@@ -1,12 +1,18 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { NODE_ENV, STATIC_CONF } from '@/config';
-import { User } from './models/user';
+import { Env } from '@/config/index.js';
+import { join } from 'path';
+import { getESDirname } from '@/utils/dir.js';
+
+const __dirname = getESDirname(import.meta.url);
+const entitiesPath = join(__dirname, '..', 'modules', '**', '*.entity.{js,ts}');
 
 export const connection = new DataSource({
   type: 'postgres',
-  ...STATIC_CONF.pg,
-  logger: NODE_ENV === 'dev' ? 'advanced-console' : 'file',
-  synchronize: NODE_ENV === 'dev',
-  entities: [User],
+  url: Env.DATABASE_URL,
+  logger: Env.NODE_ENV === 'dev' ? 'advanced-console' : 'file',
+  logging: Env.NODE_ENV === 'dev',
+  synchronize: Env.NODE_ENV === 'dev',
+  entities: [entitiesPath],
+  schema: 'dev_fastify_template',
 });

@@ -1,12 +1,12 @@
 import Fastify from 'fastify';
-import { SERVER_PORT } from '@/config';
-import { fastifyLogger, logger } from '@/plugins/logger';
+import { Env } from '@/config/index.js';
+import { fastifyLogger, logger } from '@/plugins/logger.js';
 
 const app = Fastify({
   logger: fastifyLogger,
 });
 
-app.listen({ port: SERVER_PORT }, (err, address) => {
+app.listen({ port: Env.SERVER_PORT }, (err, address) => {
   if (err) {
     logger.error(err);
     process.exit(1);

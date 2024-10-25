@@ -88,4 +88,12 @@ export class User extends BaseEntity {
     nullable: true,
   })
   latest_login_at: Date;
+
+  @Column({
+    comment: 'User Deleted At',
+    type: 'boolean',
+    nullable: true,
+    default: false,
+  })
+  deleted: boolean;
 }
