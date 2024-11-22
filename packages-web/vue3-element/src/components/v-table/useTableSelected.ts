@@ -1,13 +1,21 @@
-import { computed, Ref, ComputedRef } from 'vue';
+import { computed, Ref, ComputedRef, ref, watch } from 'vue';
 import { arrObject } from '@/utils/array';
 
 import type { CommonKey } from '@/types/common';
 import type { CheckboxValueType } from 'element-plus';
+import type { VTableProps } from './interface';
 
-export const useTableSelected = (
-  selected: Ref<CommonKey[]>,
-  currentPageIds: Ref<CommonKey[]> | ComputedRef<CommonKey[]>
-) => {
+export const useTableSelected = ({
+  selected,
+  currentPageIds,
+  onSelectedAllChange,
+}: {
+  selected: Ref<CommonKey[]>;
+  currentPageIds: Ref<CommonKey[]> | ComputedRef<CommonKey[]>;
+  onSelectedAllChange?: VTableProps['onSelectedAllChange'];
+}) => {
+  const selectedAll = ref(false);
+  const selectedAllLoading = ref(false);
   const selectedMap = computed(() => arrObject(selected.value));
 
   const headerSelected = computed(() => {
@@ -41,10 +49,36 @@ export const useTableSelected = (
     }
   };
 
+  /** 跨分页全选 */
+  const onSelectedAll = async (val: CheckboxValueType) => {
+    if (onSelectedAllChange! instanceof Function) {
+      return;
+    }
+
+    selectedAllLoading.value = true;
+    try {
+      selected.value = await onSelectedAllChange!(val);
+    } catch (error) {
+      throw error;
+    } finally {
+      selectedAllLoading.value = false;
+    }
+  };
+
+  watch(selectedAll, async (val) => {
+    await onSelectedAll(val);
+  });
+
   return {
     selectedMap,
     headerSelected,
+
+    /** 跨分页全选 */
+    selectedAll,
+    selectedAllLoading,
+
     onSelectedRow,
     onSelectedPage,
+    onSelectedAll,
   };
 };

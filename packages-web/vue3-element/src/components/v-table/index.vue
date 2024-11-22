@@ -1,41 +1,48 @@
 <template>
-  <el-table ref="tableRef" :data="data" :row-key="rowKey" :height="height" :max-height="maxHeight">
-    <!-- selected -->
-    <el-table-column v-if="selectedKeys" width="50" align="center">
-      <template #default="{ row }">
-        <el-checkbox
-          :model-value="!!selectedMap[row[rowKey]]"
-          @change="onSelectedRow($event, row[rowKey])"
-        ></el-checkbox>
-      </template>
-      <template #header v-if="selectedPage">
-        <el-checkbox v-bind="headerSelected" @change="onSelectedPage($event, currentPageIds)"></el-checkbox>
-      </template>
-    </el-table-column>
+  <div>
+    <div class="v-table-header">
+      <el-checkbox v-model="selectedAll" :disabled="selectedAllLoading"></el-checkbox>
+    </div>
 
-    <!-- columns -->
-    <template v-for="column in columns">
-      <el-table-column
-        :prop="column.key"
-        :width="column.width"
-        :label="column.title"
-        :type="column.type"
-        :align="column.align"
-      >
-        <template v-if="column.render" #default="{ row, $index }">
-          <jsx-render :nodes="column.render(row, $index)" />
+    <el-table ref="tableRef" :data="data" :row-key="rowKey" :height="height" :max-height="maxHeight">
+      <!-- selected -->
+      <el-table-column v-if="selectedKeys" width="50" align="center">
+        <template #default="{ row }">
+          <el-checkbox
+            :model-value="!!selectedMap[row[rowKey]]"
+            @change="onSelectedRow($event, row[rowKey])"
+          ></el-checkbox>
         </template>
-
-        <template v-if="column.headerRender" #header>
-          <jsx-render :nodes="column.headerRender()" />
-        </template>
-
-        <template v-if="column.expandable && column.expandRender" #expand="{ row, $index }">
-          <jsx-render :nodes="column.expandRender(row, $index)" />
+        <template #header v-if="selectedPage">
+          <el-checkbox v-bind="headerSelected" @change="onSelectedPage($event, currentPageIds)"></el-checkbox>
         </template>
       </el-table-column>
-    </template>
-  </el-table>
+
+      <!-- columns -->
+      <template v-for="column in columns">
+        <el-table-column
+          :prop="column.key"
+          :width="column.width"
+          :label="column.title"
+          :type="column.type"
+          :align="column.align"
+          :show-overflow-tooltip="column.showOverflowTooltip"
+        >
+          <template v-if="column.render" #default="{ row, $index }">
+            <jsx-render :nodes="column.render(row, $index)" />
+          </template>
+
+          <template v-if="column.headerRender" #header>
+            <jsx-render :nodes="column.headerRender()" />
+          </template>
+
+          <template v-if="column.expandable && column.expandRender" #expand="{ row, $index }">
+            <jsx-render :nodes="column.expandRender(row, $index)" />
+          </template>
+        </el-table-column>
+      </template>
+    </el-table>
+  </div>
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, unknown>">
@@ -59,7 +66,12 @@ const emits = defineEmits(['update:columns']);
 const selectedKeys = defineModel<CommonKey[]>('selectedKeys', { default: () => [] });
 const currentPageIds = computed(() => props.data.map((item) => item[props.rowKey] as CommonKey));
 
-const { selectedMap, headerSelected, onSelectedPage, onSelectedRow } = useTableSelected(selectedKeys, currentPageIds);
+const { selectedMap, headerSelected, selectedAll, selectedAllLoading, onSelectedPage, onSelectedRow } =
+  useTableSelected({
+    selected: selectedKeys,
+    currentPageIds,
+    onSelectedAllChange: props.onSelectedAllChange,
+  });
 </script>
 
 <style lang="scss" scoped></style>

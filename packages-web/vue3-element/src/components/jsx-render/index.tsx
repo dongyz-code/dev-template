@@ -1,16 +1,16 @@
 import { defineComponent } from 'vue';
-import type { RendererNode } from 'vue';
+import type { PropType, RendererNode } from 'vue';
 
 const JsxRender = defineComponent({
   name: 'JsxRender',
   props: {
     nodes: {
-      type: [Array, Object],
+      type: [Array, Object] as PropType<RendererNode | RendererNode[]>,
       required: true,
     },
   },
 
-  setup(props: { nodes: RendererNode | RendererNode[] }) {
+  setup(props) {
     return () => {
       return props.nodes;
     };
