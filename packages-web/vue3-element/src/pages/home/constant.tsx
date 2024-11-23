@@ -17,6 +17,7 @@ export const columns: VTableColumn<DataItem>[] = [
   {
     title: '操作',
     type: 'expand',
+    width: 80,
     render: (row) => {
       return <div>扩展内容</div>;
     },

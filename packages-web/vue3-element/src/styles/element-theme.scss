@@ -1,3 +1,5 @@
+/*! vite.config.ts Import */
+
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
@@ -15,5 +17,13 @@
     'info': (
       'base': #2196f3,
     ),
+  ),
+
+  $text-color: (
+    'primary': #030303,
+    'regular': #282829,
+    'secondary': #4c4d4f,
+    'placeholder': #a8abb2,
+    'disabled': #c0c4cc,
   )
 );
